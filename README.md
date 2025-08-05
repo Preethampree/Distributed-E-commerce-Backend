@@ -37,6 +37,3 @@ GET /api/users/{id} - Retrieves user details by ID.
 
 Product Service
 GET /api/products - Retrieves a list of all available products.
-
-<img width="1024" height="1536" alt="ChatGPT Image Aug 5, 2025, 11_49_04 AM" src="https://github.com/user-attachments/assets/b0a6d65b-07d6-4799-a591-ac9e2097bd4a" />
-
