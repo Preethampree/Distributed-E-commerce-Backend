@@ -5,19 +5,6 @@ Title: Distributed E-commerce Backend System
 
 Description: A headless backend system for an e-commerce platform, built using a microservices architecture with Spring Boot. This project provides a complete set of RESTful APIs for managing users, products, and orders, focusing on scalability, resilience, and observability in a distributed environment.
 
-Excellent point. You're right—clarity is everything. You want a technical recruiter or hiring manager to know instantly that you built the core engine, not the user interface.
-
-Here is how you can refine your project's presentation to exclusively highlight its backend nature.
-
-1. On GitHub: The README.md File
-Your README should read like a technical specification for a backend system.
-
-A. Refine the Title and Description:
-
-Title: Backend E-commerce API Platform or Distributed E-commerce Backend System
-
-Description: "A headless backend system for an e-commerce platform, built using a microservices architecture with Spring Boot. This project provides a complete set of RESTful APIs for managing users, products, and orders, focusing on scalability, resilience, and observability in a distributed environment."
-
 B. Add an "API Endpoints" Section (Crucial!)
 
 This is the most effective way to scream "backend." Document your key API endpoints.
