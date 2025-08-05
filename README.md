@@ -1,3 +1,4 @@
+<img width="1024" height="1536" alt="ChatGPT Image Aug 5, 2025, 11_49_04 AM" src="https://github.com/user-attachments/assets/a4e27076-84ab-4aff-9153-f00e052b5d73" />
 # Distributed-E-commerce-Backend-System
 
 Title: Distributed E-commerce Backend System
