@@ -1,0 +1,126 @@
+version: '3.8'
+
+services:
+
+  postgres-product:
+    image: postgres:15
+    container_name: postgres-product
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: E-product-new
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    networks:
+      - backend
+
+  postgres-order:
+    image: postgres:15
+    container_name: postgres-order
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    networks:
+      - backend
+
+  eureka-server:
+    image: e-microservice-eureka-server
+    build:
+      context: ./E-Discovery-Server
+    ports:
+      - "8761:8761"
+    networks:
+      - backend
+
+  api-gateway:
+    image: e-microservice-api-gateway
+    build:
+      context: ./E-Api-Gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - backend
+
+  product-service:
+    image: e-microservice-product-service
+    build:
+      context: ./product
+    ports:
+      - "8086:8086"
+    depends_on:
+      - postgres-product
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-product:5432/E-product-new
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456789
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411/
+    networks:
+      - backend
+
+  order-service:
+    image: e-microservice-order-service
+    build:
+      context: ./E-Order-Sevice
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres-order
+      - eureka-server
+      - product-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-order:5432/orders
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456789
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411/
+    networks:
+      - backend
+  postgres-user:
+    image: postgres:15
+    container_name: postgres-user
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    networks:
+      - backend
+
+  user-service:
+    image: e-microservice-user-service
+    build:
+      context: ./E-User-Service
+    ports:
+      - "8089:8089"
+    depends_on:
+      - postgres-user
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-user:5432/users
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456789
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411/
+    networks:
+      - backend
+
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
